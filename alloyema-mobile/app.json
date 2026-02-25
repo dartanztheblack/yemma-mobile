@@ -1,0 +1,68 @@
+{
+  "expo": {
+    "name": "Yemma",
+    "slug": "alloyema-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ff6b35"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.alloyema.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Yemma utilise votre position pour trouver les Yemmas près de chez vous.",
+        "NSLocationAlwaysUsageDescription": "Yemma utilise votre position pour vous notifier des Yemmas à proximité.",
+        "NSCameraUsageDescription": "Yemma utilise la caméra pour prendre des photos de profil.",
+        "NSPhotoLibraryUsageDescription": "Yemma accède à vos photos pour personnaliser votre profil."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ff6b35"
+      },
+      "package": "com.alloyema.app",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "RECEIVE_BOOT_COMPLETED",
+        "SCHEDULE_EXACT_ALARM"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location to find nearby Yemmas."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos to customize your profile."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#ff6b35"
+        }
+      ]
+    ]
+  }
+}
