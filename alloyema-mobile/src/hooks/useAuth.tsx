@@ -1,8 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { auth } from '../config/firebase';
+
+interface User {
+  uid: string;
+  email: string;
+}
 
 interface AuthContextType {
-  user: FirebaseAuthTypes.User | null;
+  user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string) => Promise<void>;
@@ -12,27 +17,24 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>({ uid: 'demo', email: 'demo@yemma.com' });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged((user) => {
-      setUser(user);
-      setLoading(false);
-    });
-    return unsubscribe;
+    // Auth désactivée pour le build - mode démo
+    setUser({ uid: 'demo', email: 'demo@yemma.com' });
   }, []);
 
   const login = async (email: string, password: string) => {
-    await auth().signInWithEmailAndPassword(email, password);
+    setUser({ uid: 'demo', email });
   };
 
   const register = async (email: string, password: string) => {
-    await auth().createUserWithEmailAndPassword(email, password);
+    setUser({ uid: 'demo', email });
   };
 
   const logout = async () => {
-    await auth().signOut();
+    setUser(null);
   };
 
   return (
