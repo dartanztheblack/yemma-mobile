@@ -1,18 +1,15 @@
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../config/firebase';
+import storage from '@react-native-firebase/storage';
 
 export const uploadImage = async (uri: string, path: string): Promise<string> => {
-  const response = await fetch(uri);
-  const blob = await response.blob();
-  const storageRef = ref(storage, path);
-  await uploadBytes(storageRef, blob);
-  return getDownloadURL(storageRef);
+  const reference = storage().ref(path);
+  await reference.putFile(uri);
+  return await reference.getDownloadURL();
 };
 
 export const getImageUrl = async (path: string): Promise<string | null> => {
   try {
-    const storageRef = ref(storage, path);
-    return await getDownloadURL(storageRef);
+    const reference = storage().ref(path);
+    return await reference.getDownloadURL();
   } catch {
     return null;
   }

@@ -1,9 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User } from 'firebase/auth';
-import { auth } from '../config/firebase';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 interface AuthContextType {
-  user: User | null;
+  user: FirebaseAuthTypes.User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string) => Promise<void>;
@@ -13,11 +12,11 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = auth().onAuthStateChanged((user) => {
       setUser(user);
       setLoading(false);
     });
@@ -25,15 +24,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
+    await auth().signInWithEmailAndPassword(email, password);
   };
 
   const register = async (email: string, password: string) => {
-    await createUserWithEmailAndPassword(auth, email, password);
+    await auth().createUserWithEmailAndPassword(email, password);
   };
 
   const logout = async () => {
-    await signOut(auth);
+    await auth().signOut();
   };
 
   return (

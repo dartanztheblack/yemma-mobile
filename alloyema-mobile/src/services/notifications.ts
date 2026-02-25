@@ -1,8 +1,8 @@
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import { Platform } from 'react-native';
-import { auth, db } from '../config/firebase';
-import { doc, setDoc, collection } from 'firebase/firestore';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 // Configure notifications
 Notifications.setNotificationHandler({
@@ -40,16 +40,16 @@ export async function registerForPushNotificationsAsync(): Promise<string | null
     }
 
     token = (await Notifications.getExpoPushTokenAsync({
-      projectId: 'your-project-id', // Replace with your Expo project ID
+      projectId: 'a80111af-a393-4469-9f2c-6fe811474987',
     })).data;
 
     // Save token to Firestore
-    const user = auth.currentUser;
+    const user = auth().currentUser;
     if (user && token) {
-      await setDoc(doc(db, 'users', user.uid), {
+      await firestore().collection('users').doc(user.uid).set({
         pushToken: token,
         platform: Platform.OS,
-        updatedAt: new Date(),
+        updatedAt: firestore.FieldValue.serverTimestamp(),
       }, { merge: true });
     }
   } else {
@@ -89,7 +89,7 @@ export async function sendLocalNotification(title: string, body: string, data?: 
       body,
       data: data || {},
     },
-    trigger: null, // Send immediately
+    trigger: null,
   });
 }
 
