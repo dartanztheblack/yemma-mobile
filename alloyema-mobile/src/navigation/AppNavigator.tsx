@@ -9,18 +9,12 @@ import { MapScreen } from '../screens/MapScreen';
 import { MessagesScreen } from '../screens/MessagesScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { AuthScreen } from '../screens/AuthScreen';
-import { PaymentScreen } from '../screens/PaymentScreen';
 import { YemmaDetailScreen } from '../screens/YemmaDetailScreen';
 import { useAuth } from '../hooks/useAuth';
 
 export type RootStackParamList = {
   Main: undefined;
   Auth: undefined;
-  Payment: {
-    amount: number;
-    yemmaName: string;
-    description: string;
-  };
   YemmaDetail: {
     yemmaId: string;
   };
@@ -81,7 +75,6 @@ function Navigation() {
         {user ? (
           <>
             <Stack.Screen name="Main" component={MainTabs} />
-            <Stack.Screen name="Payment" component={PaymentScreen} />
             <Stack.Screen name="YemmaDetail" component={YemmaDetailScreen} />
           </>
         ) : (
