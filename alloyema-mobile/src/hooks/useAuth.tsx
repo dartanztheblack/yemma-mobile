@@ -1,5 +1,20 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { auth } from '../config/firebase';
+
+// Mock auth directement ici pour éviter les imports problématiques
+const mockAuth = {
+  currentUser: { uid: 'demo', email: 'demo@yemma.com' },
+  onAuthStateChanged: (callback: (user: any) => void) => {
+    callback({ uid: 'demo', email: 'demo@yemma.com' });
+    return () => {};
+  },
+  signInWithEmailAndPassword: async () => ({ 
+    user: { uid: 'demo', email: 'demo@yemma.com' } 
+  }),
+  createUserWithEmailAndPassword: async () => ({ 
+    user: { uid: 'demo', email: 'demo@yemma.com' } 
+  }),
+  signOut: async () => {},
+};
 
 interface User {
   uid: string;
@@ -21,7 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Auth désactivée pour le build - mode démo
+    // Auth mode démo - utilisateur déjà connecté
     setUser({ uid: 'demo', email: 'demo@yemma.com' });
   }, []);
 
